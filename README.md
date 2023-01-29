@@ -1,21 +1,21 @@
 # youtube-api
 API to fetch data from YouTube.<br>
 --Fork the repo<br>
---Get the repo on your local.
---Install Java 17, docker and IntelliJ.
---Install Postman to test the APIs.
---Install postgres using docker -->docker pull postgres -->on command line
---Now run the following commands on command line--
---(1)->docker run --name postgresdb -e POSTGRES_PASSWORD=admin -d -p 5432:5432 postgres
---(2)->Now go to project folder using command line
---(3)-> docker cp youtubeapi_db.sql postgresdb:/
--->(4)-> docker container exec -it postgresdb bash
--->(5)-> psql -U postgres --file youtubeapi_db.sql
--->(6)-> exit
--- Now if you want to connect to db using command line-->docker container exec -it postgresdb psql -U postgres--> \connect youtubeapidb
----
---Now run the code from IntelliJ --> The application will start on localhost:8080.
---Now to test the APIs -> Use Postman
--- Get all API --> http://localhost:8080/youtube/all
--- Search API --> http://localhost:8080/youtube/search/{keywords}  //keywords--Path variable
---Note : For pagination add the parameters of pageNumber and pageSize in the API request.
+--Get the repo on your local.<br>
+--Install Java 17, docker and IntelliJ.<br>
+--Install Postman to test the APIs.<br>
+--Install postgres using docker -->docker pull postgres -->on command line<br>
+--Now run the following commands on command line--<br>
+--(1)->docker run --name postgresdb -e POSTGRES_PASSWORD=admin -d -p 5432:5432 postgres<br>
+--(2)->Now go to project folder using command line<br>
+--(3)-> docker cp youtubeapi_db.sql postgresdb:/<br>
+-->(4)-> docker container exec -it postgresdb bash<br>
+-->(5)-> psql -U postgres --file youtubeapi_db.sql<br>
+-->(6)-> exit<br>
+-- Now if you want to connect to db using command line-->docker container exec -it postgresdb psql -U postgres--> \connect youtubeapidb<br>
+---<br>
+--Now run the code from IntelliJ --> The application will start on localhost:8080.<br>
+--Now to test the APIs -> Use Postman<br>
+-- Get all API --> http://localhost:8080/youtube/all<br>
+-- Search API --> http://localhost:8080/youtube/search/{keywords}  //keywords--Path variable<br>
+--Note : For pagination add the parameters of pageNumber and pageSize in the API request.<br>
