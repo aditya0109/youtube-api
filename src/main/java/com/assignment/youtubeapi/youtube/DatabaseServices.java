@@ -1,6 +1,7 @@
 package com.assignment.youtubeapi.youtube;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ public class DatabaseServices {
     private static final String SQL_GET_ALL="select * from youtube limit ? offset ?"; //pageSize,pageNumber*pageSize
     private static final String SQL_INSERT= "insert into youtube (title, description, datetime, url) "+
                                             "values (?, ?, ?, ?)";
+    @Autowired
     JdbcTemplate jdbcTemplate;
 
     public List<YouTubeData> getAllData(Integer pageNumber, Integer pageSize) {

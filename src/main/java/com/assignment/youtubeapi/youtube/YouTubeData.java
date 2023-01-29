@@ -13,8 +13,8 @@ public class YouTubeData {
     }
 
     public void setDateTime(String dateTime) {
-        DateTimeFormatter dateTimeFormatter= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        this.dateTime = LocalDateTime.parse(dateTime,dateTimeFormatter);
+        String[] parts=dateTime.split("Z");
+        this.dateTime=LocalDateTime.parse(parts[0]);
     }
     public String getTitle() {
         return title;
