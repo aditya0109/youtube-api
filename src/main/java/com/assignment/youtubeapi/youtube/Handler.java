@@ -4,6 +4,8 @@ package com.assignment.youtubeapi.youtube;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.List;
 
 @RestController
@@ -29,4 +31,11 @@ public class Handler {
         return null;
     }
 
+    @GetMapping("/test")
+    public String get(){
+        String uri="https://www.googleapis.com/youtube/v3/search?part=snippet&q=cricket&key=AIzaSyBPMQAo1X3ZCZLtpXAl1yQlMG5zOHPiPm0&order=date&type=video";
+        RestTemplate restTemplate=new RestTemplate();
+        String data=restTemplate.getForObject(uri, String.class);
+        return data;
+    }
 }
