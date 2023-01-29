@@ -2,6 +2,7 @@ package com.assignment.youtubeapi.youtube;
 
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/youtube")
 public class Handler {
-
+    @Autowired
     Service service;
     @GetMapping("/all")
     public ResponseEntity<List<YouTubeData>> getAll(
@@ -44,5 +45,10 @@ public class Handler {
         DatabaseServices db=new DatabaseServices();
         db.test(res);
         return data;
+    }
+    @GetMapping("/testing")
+    public ResponseEntity<List<YouTubeData>> getTest(){
+        List<YouTubeData> data=service.getAllData(1,10);
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 }

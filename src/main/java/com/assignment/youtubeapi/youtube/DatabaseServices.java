@@ -16,7 +16,7 @@ public class DatabaseServices {
     private static final String SQL_INSERT= "insert into youtube (title, description, datetime, url) "+
                                             "values (?, ?, ?, ?)";
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     public List<YouTubeData> getAllData(Integer pageNumber, Integer pageSize) {
         return jdbcTemplate.queryForList(SQL_GET_ALL, YouTubeData.class, pageSize, pageSize*pageNumber);
