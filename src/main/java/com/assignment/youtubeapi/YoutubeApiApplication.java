@@ -18,20 +18,19 @@ public class YoutubeApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(YoutubeApiApplication.class, args);
-		try(ScheduledExecutorService executorService = Executors
-				.newSingleThreadScheduledExecutor()){
-			DatabaseServices db=new DatabaseServices();
-			Runnable task = new Runnable() {
-				public void run() {
-					String uri="https://www.googleapis.com/youtube/v3/search?part=snippet&q=cricket&key=AIzaSyBPMQAo1X3ZCZLtpXAl1yQlMG5zOHPiPm0&order=date&type=video";
-					RestTemplate restTemplate=new RestTemplate();
-					String data=restTemplate.getForObject(uri, String.class);
-					JSONObject res=new JSONObject(data);
-					db.loadData(res);
-				}
-			};
-			executorService.schedule(task, 5, TimeUnit.SECONDS);
-			//executorService.scheduleAtFixedRate(task,1,10,TimeUnit.SECONDS);
-		}
+		ScheduledExecutorService executorService = Executors
+				.newSingleThreadScheduledExecutor();
+		DatabaseServices db=new DatabaseServices();
+		Runnable task = new Runnable() {
+			public void run() {
+				String uri="https://www.googleapis.com/youtube/v3/search?part=snippet&q=cricket&key=AIzaSyBPMQAo1X3ZCZLtpXAl1yQlMG5zOHPiPm0&order=date&type=video";
+				RestTemplate restTemplate=new RestTemplate();
+				String data=restTemplate.getForObject(uri, String.class);
+				JSONObject res=new JSONObject(data);
+				db.loadData(res);
+			}
+		};
+		executorService.schedule(task, 5, TimeUnit.SECONDS);
+		//executorService.scheduleAtFixedRate(task,1,10,TimeUnit.SECONDS);
 	}
 }
