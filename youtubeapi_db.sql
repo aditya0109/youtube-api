@@ -13,3 +13,5 @@ description text not null,
 datetime timestamp not null,
 url text
 );
+
+create sequence youtube_seq increment 1 start 1;
