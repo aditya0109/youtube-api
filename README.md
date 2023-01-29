@@ -1,0 +1,21 @@
+# youtube-api
+API to fetch data from YouTube.
+--Fork the repo
+--Get the repo on your local.
+--Install Java 17, docker and IntelliJ.
+--Install Postman to test the APIs.
+--Install postgres using docker -->docker pull postgres -->on command line
+--Now run the following commands on command line--
+--(1)->docker run --name postgresdb -e POSTGRES_PASSWORD=admin -d -p 5432:5432 postgres
+--(2)->Now go to project folder using command line
+--(3)-> docker cp youtubeapi_db.sql postgresdb:/
+-->(4)-> docker container exec -it postgresdb bash
+-->(5)-> psql -U postgres --file youtubeapi_db.sql
+-->(6)-> exit
+-- Now if you want to connect to db using command line-->docker container exec -it postgresdb psql -U postgres--> \connect youtubeapidb
+---
+--Now run the code from IntelliJ --> The application will start on localhost:8080.
+--Now to test the APIs -> Use Postman
+-- Get all API --> http://localhost:8080/youtube/all
+-- Search API --> http://localhost:8080/youtube/search/{keywords}  //keywords--Path variable
+--Note : For pagination add the parameters of pageNumber and pageSize in the API request.
