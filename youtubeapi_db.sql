@@ -4,14 +4,11 @@ create user youtubeapi with password 'password';
 create database youtubeapidb with template=template0 owner=youtubeapi;
 \connect youtubeapidb;
 alter default privileges grant all on tables to youtubeapi;
-alter default privileges grant all on sequences to youtubeapi;
 
 create table youtube(
-content_id integer primary key not null,
+id serial primary key,
 title text not null,
 description text not null,
-datetime timestamp not null,
-url text
+url text not null
 );
 
-create sequence youtube_seq increment 1 start 1;

@@ -1,21 +1,15 @@
 package com.assignment.youtubeapi.youtube;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class YouTubeData {
+    Integer id;
     String title;
     String description;
     String thumbnailUrl;
-    LocalDateTime dateTime;
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
 
-    public void setDateTime(String dateTime) {
-        String[] parts=dateTime.split("Z");
-        this.dateTime=LocalDateTime.parse(parts[0]);
-    }
+    public Integer getId() { return id; }
+
+    public void setId(Integer id) { this.id = id; }
+
     public String getTitle() {
         return title;
     }

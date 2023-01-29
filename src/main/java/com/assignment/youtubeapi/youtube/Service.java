@@ -1,8 +1,6 @@
 package com.assignment.youtubeapi.youtube;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
-
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -13,5 +11,7 @@ public class Service {
         return db.getAllData(pageNumber, pageSize);
     }
 
-
+    public List<YouTubeData> getAllDataMatching(String keywords, Integer pageNumber, Integer pageSize) {
+        return db.getAllDataMatching(keywords, pageNumber, pageSize);
+    }
 }

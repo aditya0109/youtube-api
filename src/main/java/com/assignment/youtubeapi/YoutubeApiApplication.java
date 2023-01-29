@@ -1,14 +1,11 @@
 package com.assignment.youtubeapi;
 
 import com.assignment.youtubeapi.youtube.DatabaseServices;
-import com.assignment.youtubeapi.youtube.YouTubeData;
 import org.json.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +19,7 @@ public class YoutubeApiApplication {
 				.newSingleThreadScheduledExecutor();
 		DatabaseServices db=new DatabaseServices();
 		Runnable task = new Runnable() {
+			@Async
 			public void run() {
 				String uri="https://www.googleapis.com/youtube/v3/search?part=snippet&q=cricket&key=AIzaSyBPMQAo1X3ZCZLtpXAl1yQlMG5zOHPiPm0&order=date&type=video";
 				RestTemplate restTemplate=new RestTemplate();
@@ -30,7 +28,7 @@ public class YoutubeApiApplication {
 				db.loadData(res);
 			}
 		};
-		executorService.schedule(task, 5, TimeUnit.SECONDS);
-		//executorService.scheduleAtFixedRate(task,1,10,TimeUnit.SECONDS);
+		//executorService.schedule(task, 5, TimeUnit.SECONDS);
+		executorService.scheduleAtFixedRate(task,1,10,TimeUnit.SECONDS);
 	}
 }

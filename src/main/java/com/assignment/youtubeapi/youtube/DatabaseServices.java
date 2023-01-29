@@ -2,24 +2,22 @@ package com.assignment.youtubeapi.youtube;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Repository
 public class DatabaseServices {
     private static final String SQL_GET_ALL="select * from youtube limit ? offset ?"; //pageSize,pageNumber*pageSize
-    private static final String SQL_INSERT= "insert into youtube (title, description, datetime, url) "+
-                                            "values (?, ?, ?, ?)";
+    private static final String SQL_INSERT= "insert into youtube (title, description, url) "+
+                                            "values (?, ?, ?)";
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     public List<YouTubeData> getAllData(Integer pageNumber, Integer pageSize) {
-        return jdbcTemplate.queryForList(SQL_GET_ALL, YouTubeData.class, pageSize, pageSize*pageNumber);
+        return jdbcTemplate.query(SQL_GET_ALL, new BeanPropertyRowMapper<YouTubeData>(YouTubeData.class),
+                pageSize, pageSize*(pageNumber-1));
     }
 
     public void loadData(JSONObject res) {
@@ -29,8 +27,6 @@ public class DatabaseServices {
                     .getJSONObject("snippet").getString("title"));
             yt.setDescription(res.getJSONArray("items").getJSONObject(i)
                     .getJSONObject("snippet").getString("description"));
-            yt.setDateTime(res.getJSONArray("items").getJSONObject(i)
-                    .getJSONObject("snippet").getString("publishedAt"));
             yt.setThumbnailUrl(res.getJSONArray("items").getJSONObject(i)
                     .getJSONObject("snippet").getJSONObject("thumbnails")
                     .getJSONObject("medium").getString("url"));
@@ -39,23 +35,13 @@ public class DatabaseServices {
     }
 
     private void saveData(YouTubeData yt) {
-        jdbcTemplate.update(SQL_INSERT, yt.getTitle(), yt.getDescription(), Timestamp.valueOf(yt.getDateTime()), yt.getThumbnailUrl());
+        jdbcTemplate.update(SQL_INSERT, yt.getTitle(), yt.getDescription(), yt.getThumbnailUrl());
     }
 
-    public void test(JSONObject res){
-        String t=res.getJSONArray("items").getJSONObject(0)
-                .getJSONObject("snippet").getString("title");
-        String d=res.getJSONArray("items").getJSONObject(0)
-                .getJSONObject("snippet").getString("description");
-        String th=res.getJSONArray("items").getJSONObject(0)
-                .getJSONObject("snippet").getJSONObject("thumbnails")
-                .getJSONObject("medium").getString("url");
-        String date = res.getJSONArray("items").getJSONObject(0)
-                .getJSONObject("snippet").getString("publishedAt");
-        String[] parts=date.split("Z");
-        LocalDateTime dateTime = LocalDateTime.parse(parts[0]);
-        Timestamp timestamp=Timestamp.valueOf(dateTime);
-        jdbcTemplate.update("insert into youtube (title, description, datetime, url) values (?, ?, ?, ?)",
-                t,d,timestamp,th);
+    public List<YouTubeData> getAllDataMatching(String keywords, Integer pageNumber, Integer pageSize) {
+        String sql = "select * from youtube where title like ? or description like ?";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<YouTubeData>(YouTubeData.class),
+                "%"+keywords+"%", "%"+keywords+"%");
     }
+
 }
