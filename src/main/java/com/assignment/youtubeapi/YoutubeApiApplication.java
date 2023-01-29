@@ -24,7 +24,7 @@ public class YoutubeApiApplication {
 	@Scheduled(fixedRate = 10000L)
 	public void schedule(){
 		logger.info("API hit");
-		String uri="https://www.googleapis.com/youtube/v3/search?part=snippet&q=cricket&key=AIzaSyBPMQAo1X3ZCZLtpXAl1yQlMG5zOHPiPm0&order=date&type=video";
+		String uri="https://www.googleapis.com/youtube/v3/search?part=snippet&q=cricket&key=AIzaSyBPMQAo1X3ZCZLtpXAl1yQlMG5zOHPiPm0&order=date&type=video&publishedAfter=2005-01-01T00:00:00Z";
 		RestTemplate restTemplate=new RestTemplate();
 		String data=restTemplate.getForObject(uri, String.class);
 		JSONObject res=new JSONObject(data);
