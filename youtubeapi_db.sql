@@ -9,6 +9,7 @@ create table youtube(
 id serial primary key,
 title text not null,
 description text not null,
-url text not null
+url text,
+video_id text unique not null
 );
 

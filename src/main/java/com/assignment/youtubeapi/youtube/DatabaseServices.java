@@ -1,6 +1,8 @@
 package com.assignment.youtubeapi.youtube;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,9 +11,11 @@ import java.util.List;
 
 @Repository
 public class DatabaseServices {
+
+    private static final Logger logger = LoggerFactory.getLogger(DatabaseServices.class);
     private static final String SQL_GET_ALL="select * from youtube limit ? offset ?"; //pageSize,pageNumber*pageSize
-    private static final String SQL_INSERT= "insert into youtube (title, description, url) "+
-                                            "values (?, ?, ?)";
+    private static final String SQL_INSERT= "insert into youtube (title, description, url, video_id) "+
+                                            "values (?, ?, ?, ?)";
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -30,12 +34,18 @@ public class DatabaseServices {
             yt.setThumbnailUrl(res.getJSONArray("items").getJSONObject(i)
                     .getJSONObject("snippet").getJSONObject("thumbnails")
                     .getJSONObject("medium").getString("url"));
+            yt.setVideoId(res.getJSONArray("items").getJSONObject(i)
+                    .getJSONObject("id").getString("videoId"));
             saveData(yt);
         }
     }
 
     private void saveData(YouTubeData yt) {
-        jdbcTemplate.update(SQL_INSERT, yt.getTitle(), yt.getDescription(), yt.getThumbnailUrl());
+        try{
+            jdbcTemplate.update(SQL_INSERT, yt.getTitle(), yt.getDescription(), yt.getThumbnailUrl(), yt.getVideoId());
+        } catch (Exception e) {
+            logger.error("DB error ", e);
+        }
     }
 
     public List<YouTubeData> getAllDataMatching(String keywords, Integer pageNumber, Integer pageSize) {

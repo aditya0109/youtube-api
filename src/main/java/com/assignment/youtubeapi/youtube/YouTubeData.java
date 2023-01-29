@@ -5,6 +5,11 @@ public class YouTubeData {
     String title;
     String description;
     String thumbnailUrl;
+    String videoId;
+
+    public String getVideoId() { return videoId; }
+
+    public void setVideoId(String videoId) { this.videoId = videoId; }
 
     public Integer getId() { return id; }
 
