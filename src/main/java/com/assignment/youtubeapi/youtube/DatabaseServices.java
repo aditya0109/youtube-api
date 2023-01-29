@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public class DatabaseServices {
-    private static final String SQL_GET_ALL="select * from db order by date desc limit ? offset ?"; //pageSize,pageNumber*pageSize
+    private static final String SQL_GET_ALL="select * from youtube limit ? offset ?"; //pageSize,pageNumber*pageSize
     private static final String SQL_INSERT= "insert into youtube (title, description, datetime, url) "+
                                             "values (?, ?, ?, ?)";
     JdbcTemplate jdbcTemplate;
