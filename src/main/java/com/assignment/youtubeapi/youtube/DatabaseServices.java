@@ -50,9 +50,10 @@ public class DatabaseServices {
                 .getJSONObject("medium").getString("url");
         String date = res.getJSONArray("items").getJSONObject(0)
                 .getJSONObject("snippet").getString("publishedAt");
-        DateTimeFormatter dateTimeFormatter= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse(date,dateTimeFormatter);
+        String[] parts=date.split("Z");
+        LocalDateTime dateTime = LocalDateTime.parse(parts[0]);
+        Timestamp timestamp=Timestamp.valueOf(dateTime);
         jdbcTemplate.update("insert into youtube (title, description, datetime, url) values (?, ?, ?, ?)",
-                t,d,dateTime,th);
+                t,d,timestamp,th);
     }
 }
