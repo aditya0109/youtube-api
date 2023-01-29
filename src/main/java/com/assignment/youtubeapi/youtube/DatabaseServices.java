@@ -4,6 +4,9 @@ import org.json.JSONObject;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Repository
@@ -34,6 +37,22 @@ public class DatabaseServices {
     }
 
     private void saveData(YouTubeData yt) {
-        jdbcTemplate.update(SQL_INSERT, yt.getTitle(), yt.getDescription(), yt.getDateTime(), yt.getThumbnailUrl());
+        jdbcTemplate.update(SQL_INSERT, yt.getTitle(), yt.getDescription(), Timestamp.valueOf(yt.getDateTime()), yt.getThumbnailUrl());
+    }
+
+    public void test(JSONObject res){
+        String t=res.getJSONArray("items").getJSONObject(0)
+                .getJSONObject("snippet").getString("title");
+        String d=res.getJSONArray("items").getJSONObject(0)
+                .getJSONObject("snippet").getString("description");
+        String th=res.getJSONArray("items").getJSONObject(0)
+                .getJSONObject("snippet").getJSONObject("thumbnails")
+                .getJSONObject("medium").getString("url");
+        String date = res.getJSONArray("items").getJSONObject(0)
+                .getJSONObject("snippet").getString("publishedAt");
+        DateTimeFormatter dateTimeFormatter= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(date,dateTimeFormatter);
+        jdbcTemplate.update("insert into youtube (title, description, datetime, url) values (?, ?, ?, ?)",
+                t,d,dateTime,th);
     }
 }

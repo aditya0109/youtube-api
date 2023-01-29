@@ -13,7 +13,7 @@ public class YouTubeData {
     }
 
     public void setDateTime(String dateTime) {
-        DateTimeFormatter dateTimeFormatter= DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm:ss");
+        DateTimeFormatter dateTimeFormatter= DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         this.dateTime = LocalDateTime.parse(dateTime,dateTimeFormatter);
     }
     public String getTitle() {

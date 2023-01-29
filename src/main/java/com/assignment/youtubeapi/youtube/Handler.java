@@ -1,11 +1,15 @@
 package com.assignment.youtubeapi.youtube;
 
 
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -36,6 +40,9 @@ public class Handler {
         String uri="https://www.googleapis.com/youtube/v3/search?part=snippet&q=cricket&key=AIzaSyBPMQAo1X3ZCZLtpXAl1yQlMG5zOHPiPm0&order=date&type=video";
         RestTemplate restTemplate=new RestTemplate();
         String data=restTemplate.getForObject(uri, String.class);
+        JSONObject res=new JSONObject(data);
+        DatabaseServices db=new DatabaseServices();
+        db.test(res);
         return data;
     }
 }
