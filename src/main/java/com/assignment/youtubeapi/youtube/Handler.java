@@ -1,5 +1,7 @@
 package com.assignment.youtubeapi.youtube;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/youtube")
 public class Handler {
+
+    private static final Logger logger = LoggerFactory.getLogger(Handler.class);
     @Autowired
     Service service;
     @GetMapping("/all")
@@ -20,6 +24,7 @@ public class Handler {
             List<YouTubeData> data=service.getAllData(pageNumber,pageSize);
             return new ResponseEntity<>(data, HttpStatus.OK);
         } catch (Exception e){
+            logger.error("Error occurred while getting all data", e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -34,6 +39,7 @@ public class Handler {
             List<YouTubeData> data=service.getAllDataMatching(keywords,pageNumber,pageSize);
             return new ResponseEntity<>(data, HttpStatus.OK);
         } catch (Exception e){
+            logger.error("Error occurred while getting matching data", e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
